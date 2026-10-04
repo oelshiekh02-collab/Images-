@@ -1,0 +1,443 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <title>Wedding Invitation</title>
+    <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+      :root {
+        --bg1: #fffaf5;
+        --bg2: #f8e7ea;
+        --rose: #d77d7d;
+        --rose-deep: #ad5c5c;
+        --gold: #d9b56d;
+        --ivory: #fffdf9;
+        --text: #4c3c38;
+        --shadow: rgba(110, 70, 66, 0.12);
+      }
+
+      * { box-sizing: border-box; margin: 0; padding: 0; }
+      html, body {
+        width: 100%;
+        height: 100%;
+        font-family: "Georgia", "Times New Roman", serif;
+        color: var(--text);
+        background: linear-gradient(135deg, var(--bg1), var(--bg2));
+        overflow: hidden;
+      }
+      body {
+        position: relative;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      .bg-blur {
+        position: fixed;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+        background:
+          radial-gradient(circle at 15% 20%, rgba(215,125,125,0.14), transparent 25%),
+          radial-gradient(circle at 80% 30%, rgba(217,181,109,0.14), transparent 20%),
+          radial-gradient(circle at 50% 100%, rgba(173,92,92,0.08), transparent 30%);
+        filter: blur(12px);
+        z-index: 0;
+      }
+      .hearts {
+        position: fixed;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+        overflow: hidden;
+        pointer-events: none;
+        z-index: 1;
+      }
+      .heart {
+        position: absolute;
+        bottom: -10%;
+        width: 20px;
+        height: 20px;
+        transform: rotate(-45deg);
+        opacity: 0.8;
+        animation: floatUp linear infinite;
+      }
+      .heart::before,
+      .heart::after {
+        content: "";
+        position: absolute;
+        width: 20px;
+        height: 20px;
+        background: rgba(215, 125, 125, 0.86);
+        border-radius: 50%;
+      }
+      .heart::before { top: -10px; left: 0; }
+      .heart::after { left: 10px; top: 0; }
+      @keyframes floatUp {
+        0% {
+          transform: translate3d(0, 0, 0) rotate(-45deg) scale(0.8);
+          opacity: 0;
+        }
+        10% { opacity: 1; }
+        100% {
+          transform: translate3d(var(--drift), -110vh, 0) rotate(-45deg) scale(1.2);
+          opacity: 0;
+        }
+      }
+      .container {
+        position: relative;
+        z-index: 2;
+        width: 100%;
+        height: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: clamp(10px, 5vw, 40px);
+      }
+      .card {
+        width: 100%;
+        max-width: 800px;
+        max-height: 95vh;
+        background: rgba(255, 255, 255, 0.52);
+        border: 1px solid rgba(173, 92, 92, 0.26);
+        border-radius: clamp(20px, 5vw, 40px);
+        box-shadow: 0 25px 70px var(--shadow);
+        position: relative;
+        overflow: hidden;
+        backdrop-filter: blur(5px);
+        display: flex;
+        flex-direction: column;
+      }
+      .card::before,
+      .card::after {
+        content: "";
+        position: absolute;
+        width: clamp(150px, 20vw, 220px);
+        height: clamp(150px, 20vw, 220px);
+        border: 1px solid rgba(215,125,125,0.28);
+        border-radius: 50%;
+      }
+      .card::before {
+        top: clamp(-40px, -10vw, -90px);
+        left: clamp(-40px, -10vw, -60px);
+      }
+      .card::after {
+        right: clamp(-40px, -10vw, -60px);
+        bottom: clamp(-40px, -10vw, -90px);
+      }
+      .content {
+        position: relative;
+        z-index: 2;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        padding: clamp(20px, 8vw, 50px) clamp(15px, 5vw, 40px);
+        text-align: center;
+        opacity: 0;
+        transform: translateY(50px);
+        animation: reveal 1.8s ease forwards 0.5s;
+        overflow-y: auto;
+        max-height: calc(95vh - 130px);
+        gap: clamp(8px, 3vw, 16px);
+      }
+      @keyframes reveal {
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+      .image-container {
+        width: clamp(200px, 45vw, 280px);
+        height: clamp(200px, 45vw, 280px);
+        border-radius: 50%;
+        overflow: hidden;
+        border: clamp(2px, 1vw, 4px) solid rgba(173, 92, 92, 0.35);
+        box-shadow: 0 clamp(8px, 3vw, 12px) clamp(20px, 5vw, 32px) rgba(173, 92, 92, 0.25);
+        background: rgba(255, 255, 255, 0.3);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
+      }
+      .image-container img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: block;
+      }
+      .topline {
+        letter-spacing: clamp(0.1rem, 1vw, 0.4rem);
+        text-transform: uppercase;
+        font-size: clamp(0.6rem, 2vw, 0.9rem);
+        color: var(--rose-deep);
+        font-weight: 600;
+      }
+      h1 {
+        font-size: clamp(1.8rem, 6vw, 4.5rem);
+        line-height: 1.05;
+        margin: clamp(10px, 2vw, 18px) 0 clamp(5px, 1vw, 8px);
+        font-weight: 600;
+        letter-spacing: 0.04em;
+        color: #4f3935;
+      }
+      .and {
+        font-size: clamp(1.4rem, 4vw, 2.8rem);
+        color: var(--gold);
+        margin: clamp(2px, 1vw, 4px) 0;
+      }
+      .sub {
+        margin-top: clamp(10px, 2vw, 18px);
+        color: rgba(76,60,56,0.8);
+        font-size: clamp(0.85rem, 2.5vw, 1.2rem);
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+      }
+      .divider {
+        width: clamp(120px, 25vw, 180px);
+        height: 1px;
+        background: linear-gradient(90deg, transparent, rgba(173,92,92,0.8), transparent);
+        margin: clamp(16px, 3vw, 26px) auto;
+      }
+      .details {
+        margin-top: clamp(8px, 2vw, 10px);
+        display: grid;
+        gap: clamp(8px, 2vw, 12px);
+        font-size: clamp(0.85rem, 2.5vw, 1.1rem);
+        line-height: 1.6;
+      }
+      .details strong { font-weight: 700; }
+      .flowers {
+        position: absolute;
+        inset: auto 0 0 0;
+        height: clamp(80px, 15vw, 130px);
+        pointer-events: none;
+      }
+      .flowers::before,
+      .flowers::after {
+        content: "";
+        position: absolute;
+        bottom: 0;
+        width: 42%;
+        height: 100%;
+        background: radial-gradient(circle at 50% 0%, rgba(215,125,125,0.12), transparent 60%);
+      }
+      .flowers::before { left: -10%; }
+      .flowers::after { right: -10%; }
+      .petal {
+        position: absolute;
+        bottom: clamp(8px, 2vw, 12px);
+        width: clamp(14px, 3vw, 18px);
+        height: clamp(20px, 4vw, 28px);
+        background: linear-gradient(180deg, #f7d5d5, #d99c9c);
+        border-radius: 60% 10% 60% 10%;
+        opacity: 0.8;
+        transform-origin: center bottom;
+        animation: sway 5s ease-in-out infinite;
+      }
+      .petal:nth-child(odd) {
+        background: linear-gradient(180deg, #f6d7a2, #d4ac63);
+      }
+      .petal:nth-child(1) { left: 12%; animation-delay: 0s; }
+      .petal:nth-child(2) { left: 22%; animation-delay: 0.6s; }
+      .petal:nth-child(3) { left: 36%; animation-delay: 1.4s; }
+      .petal:nth-child(4) { left: 49%; animation-delay: 0.8s; }
+      .petal:nth-child(5) { left: 62%; animation-delay: 1.6s; }
+      .petal:nth-child(6) { left: 76%; animation-delay: 0.2s; }
+      .petal:nth-child(7) { left: 88%; animation-delay: 1.2s; }
+      @keyframes sway {
+        0%, 100% { transform: rotate(-12deg) translateY(0); }
+        50% { transform: rotate(12deg) translateY(-8px); }
+      }
+      .countdown {
+        display: flex;
+        gap: clamp(8px, 2vw, 12px);
+        justify-content: center;
+        margin-top: clamp(12px, 3vw, 18px);
+        flex-wrap: wrap;
+      }
+      .time-box {
+        min-width: clamp(60px, 15vw, 90px);
+        padding: clamp(8px, 2vw, 12px) clamp(6px, 1.5vw, 10px);
+        border-radius: clamp(10px, 2vw, 14px);
+        background: rgba(255,255,255,0.55);
+        border: 1px solid rgba(173,92,92,0.18);
+        box-shadow: inset 0 1px 0 rgba(255,255,255,0.7);
+      }
+      .time-box .num {
+        display: block;
+        font-size: clamp(1.2rem, 3vw, 1.8rem);
+        font-weight: 700;
+        color: var(--rose-deep);
+      }
+      .time-box .label {
+        display: block;
+        font-size: clamp(0.55rem, 1.5vw, 0.75rem);
+        letter-spacing: 0.12rem;
+        text-transform: uppercase;
+        color: rgba(76, 60, 56, 0.72);
+        margin-top: 2px;
+      }
+      .title-quote {
+        margin-top: clamp(8px, 2vw, 12px);
+        margin-bottom: clamp(6px, 1.5vw, 8px);
+        font-size: clamp(1.3rem, 4vw, 2rem);
+        letter-spacing: 0.06em;
+        color: var(--rose-deep);
+        font-family: 'Amiri', serif;
+        font-weight: 700;
+        text-shadow: 0 2px 4px rgba(173, 92, 92, 0.15);
+        line-height: 1.6;
+      }
+      @media (max-width: 1024px) and (min-width: 521px) {
+        .card { max-width: 90vw; }
+      }
+      @media (max-width: 520px) {
+        body { padding: 0; }
+        .container { padding: 10px; min-height: 100vh; }
+        .card { max-height: 100vh; border-radius: 20px; }
+        .content { padding: 20px 15px; gap: 6px; }
+        .image-container { width: 200px; height: 200px; margin-bottom: 8px; border-width: 2px; }
+        h1 { font-size: 2rem; }
+        .and { font-size: 1.4rem; }
+        .title-quote { font-size: 1.2rem; }
+        .countdown { gap: 6px; }
+        .time-box { min-width: 60px; padding: 8px 6px; }
+        .time-box .num { font-size: 1.2rem; }
+        .time-box .label { font-size: 0.55rem; }
+      }
+      @media (max-width: 380px) {
+        .content { padding: 16px 12px; }
+        .image-container { width: 160px; height: 160px; }
+        h1 { font-size: 1.5rem; }
+        .and { font-size: 1.1rem; }
+        .title-quote { font-size: 1rem; }
+        .details { font-size: 0.8rem; }
+        .time-box { min-width: 50px; padding: 6px 5px; }
+        .time-box .num { font-size: 1rem; }
+      }
+      @media (max-height: 500px) and (orientation: landscape) {
+        .content { padding: 15px 20px; gap: 4px; }
+        .image-container { width: clamp(100px, 15vh, 150px); height: clamp(100px, 15vh, 150px); margin-bottom: 4px; }
+        h1 { font-size: clamp(1.5rem, 4vh, 2.5rem); margin: 4px 0 2px; }
+        .countdown { margin-top: 8px; gap: 6px; }
+        .time-box { min-width: 50px; padding: 6px 5px; }
+        .flowers { height: 60px; }
+      }
+    </style>
+  </head>
+  <body>
+    <audio id="background-audio" autoplay loop playsinline preload="auto" src="https://media.vocaroo.com/mp3/17F5OgNFmBVU"></audio>
+
+    <div class="bg-blur"></div>
+    <div class="hearts" id="hearts"></div>
+
+    <div class="container">
+      <div class="card">
+        <div class="content">
+          <div class="topline">With joy in our hearts</div>
+
+          <div class="image-container">
+            <img src="https://i.postimg.cc/5NcRT3pZ/IMG-20261004-WA0044.jpg" alt="Wedding couple" />
+          </div>
+
+          <div class="title-quote">خالد قد نال دعاء</div>
+
+          <h1>Emma</h1>
+          <div class="and">&amp;</div>
+          <h1>Daniel</h1>
+
+          <div class="sub">Invite you to celebrate</div>
+
+          <div class="divider"></div>
+
+          <div class="details">
+            <div><strong>Saturday, 14 September 2026</strong></div>
+            <div>At 4:30 PM</div>
+            <div>Rosewood Garden Estate</div>
+            <div>24 Silver Lake Road, New York</div>
+          </div>
+
+          <div class="countdown" aria-label="Wedding countdown">
+            <div class="time-box"><span class="num" id="days">00</span><span class="label">Days</span></div>
+            <div class="time-box"><span class="num" id="hours">00</span><span class="label">Hours</span></div>
+            <div class="time-box"><span class="num" id="minutes">00</span><span class="label">Mins</span></div>
+            <div class="time-box"><span class="num" id="seconds">00</span><span class="label">Secs</span></div>
+          </div>
+        </div>
+
+        <div class="flowers" aria-hidden="true">
+          <div class="petal"></div>
+          <div class="petal"></div>
+          <div class="petal"></div>
+          <div class="petal"></div>
+          <div class="petal"></div>
+          <div class="petal"></div>
+          <div class="petal"></div>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      const heartsContainer = document.getElementById("hearts");
+      const audio = document.getElementById("background-audio");
+
+      function tryPlayAudio() {
+        if (!audio) return;
+        audio.volume = 0.45;
+        audio.play().catch(() => {
+          document.addEventListener("pointerdown", () => {
+            audio.play().catch(() => {});
+          }, { once: true });
+        });
+      }
+
+      window.addEventListener("load", tryPlayAudio);
+      document.addEventListener("pointerdown", tryPlayAudio, { once: true });
+
+      function createHeart() {
+        const heart = document.createElement("div");
+        heart.className = "heart";
+        heart.style.left = Math.random() * 100 + "%";
+        heart.style.setProperty("--drift", (Math.random() * 80 - 40) + "px");
+        heart.style.animationDuration = (9 + Math.random() * 8) + "s";
+        heart.style.animationDelay = (Math.random() * 5) + "s";
+        heart.style.opacity = (0.3 + Math.random() * 0.7).toFixed(2);
+        heartsContainer.appendChild(heart);
+        setTimeout(() => heart.remove(), 17000);
+      }
+
+      for (let i = 0; i < 18; i++) {
+        createHeart();
+      }
+      setInterval(createHeart, 700);
+
+      const weddingDate = new Date("2026-09-14T16:30:00");
+      function updateCountdown() {
+        const now = new Date();
+        const diff = weddingDate - now;
+
+        if (diff <= 0) {
+          document.getElementById("days").textContent = "00";
+          document.getElementById("hours").textContent = "00";
+          document.getElementById("minutes").textContent = "00";
+          document.getElementById("seconds").textContent = "00";
+          return;
+        }
+
+        const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+        const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
+        const minutes = Math.floor((diff / (1000 * 60)) % 60);
+        const seconds = Math.floor((diff / 1000) % 60);
+
+        document.getElementById("days").textContent = String(days).padStart(2, "0");
+        document.getElementById("hours").textContent = String(hours).padStart(2, "0");
+        document.getElementById("minutes").textContent = String(minutes).padStart(2, "0");
+        document.getElementById("seconds").textContent = String(seconds).padStart(2, "0");
+      }
+
+      updateCountdown();
+      setInterval(updateCountdown, 1000);
+    </script>
+  </body>
+</html>
